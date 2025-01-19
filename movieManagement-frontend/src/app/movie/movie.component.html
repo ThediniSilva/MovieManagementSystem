@@ -1,0 +1,46 @@
+<div class="flex flex-col items-center py-8 space-y-8">
+  <!-- Cards Container -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+    <div *ngFor="let movie of movies; index as i" class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+
+      <!-- Movie Image -->
+      <img 
+        [src]="movie.imageUrl" 
+        alt="Movie Image" 
+        class="w-full h-64 object-cover" 
+        *ngIf="movie.imageUrl; else noImage">
+      
+      <!-- Placeholder for missing image -->
+      <ng-template #noImage>
+        <div class="w-full h-64 flex items-center justify-center bg-gray-200">
+          <span class="text-gray-500">No Image Available</span>
+        </div>
+      </ng-template>
+  
+      <div class="px-6 py-4">
+        <!-- Movie Title -->
+        <div class="font-bold text-xl mb-2 text-gray-900">{{ movie.title }}</div>
+  
+        <!-- Movie Details -->
+        <p class="text-gray-700 text-base">
+          <strong>Genre:</strong> {{ movie.genre }} <br>
+          <strong>Duration:</strong> {{ movie.duration }} minutes <br>
+          <strong>Director:</strong> {{ movie.director }}
+        </p>
+      </div>
+      <!-- Action Buttons -->
+      <div class="px-6 py-4 flex justify-between">
+          <button 
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          [routerLink]="['/update', movie.id]">
+          Update
+      </button>
+        <button 
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          (click)="deleteMovie(movie.id, i)">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

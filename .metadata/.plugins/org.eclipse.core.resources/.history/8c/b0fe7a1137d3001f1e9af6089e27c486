@@ -1,0 +1,163 @@
+package com.example.MovieTicketBookingSystem.controller;
+
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.MovieTicketBookingSystem.entity.Movie;
+import com.example.MovieTicketBookingSystem.repository.MovieRepository;
+
+import java.io.IOException;
+import java.nio.file.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/movies")
+@CrossOrigin(origins = "http://localhost:4200") // Allow requests from Angular frontend
+public class MovieController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
+
+    @Autowired
+    private MovieRepository movieRepository;
+
+    // Endpoint to add a movie
+    @PostMapping("/add")
+    public ResponseEntity<String> addMovie(
+            @RequestParam("title") String title,
+            @RequestParam("genre") String genre,
+            @RequestParam("duration") int duration,
+            @RequestParam("director") String director,
+            @RequestParam("image") MultipartFile image) {
+        if (image.isEmpty() || title.isEmpty() || genre.isEmpty() || director.isEmpty() || duration <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input data.");
+        }
+
+        try {
+            // Define the target directory for saving the image
+            String directory = "D:\\Projects\\image";
+
+            // Ensure the directory exists
+            Path imagePath = Paths.get(directory);
+            Files.createDirectories(imagePath);
+
+            // Save the image file
+            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            Path filePath = imagePath.resolve(fileName);
+            Files.write(filePath, image.getBytes());
+
+            // Create a Movie object
+            Movie movie = new Movie(title, genre, duration, director, filePath.toString());
+
+            // Save to the database
+            movieRepository.save(movie);
+
+            logger.info("Movie added successfully: {}", movie);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Movie added successfully with image!");
+        } catch (IOException e) {
+            logger.error("Error saving movie: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error saving movie: " + e.getMessage());
+        }
+    }
+
+    // Endpoint to retrieve all movies with image path
+    @GetMapping("/all")
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        try {
+            List<Movie> movies = movieRepository.findAll();
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            logger.error("Error retrieving movies: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // Endpoint to retrieve a single movie by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
+        try {
+            Movie movie = movieRepository.findById(id).orElse(null);
+            if (movie == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.ok(movie);
+        } catch (Exception e) {
+            logger.error("Error retrieving movie: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // Endpoint to update a movie
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateMovie(
+            @PathVariable Long id,
+            @RequestParam("title") String title,
+            @RequestParam("genre") String genre,
+            @RequestParam("duration") int duration,
+            @RequestParam("director") String director,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
+
+        Movie movie = movieRepository.findById(id).orElse(null);
+        if (movie == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found!");
+        }
+
+        // Update movie details
+        movie.setTitle(title);
+        movie.setGenre(genre);
+        movie.setDuration(duration);
+        movie.setDirector(director);
+
+        if (image != null && !image.isEmpty()) {
+            try {
+                // Define the target directory for saving the image
+                String directory = "D:\\Projects\\image";
+
+                // Ensure the directory exists
+                Path imagePath = Paths.get(directory);
+                Files.createDirectories(imagePath);
+
+                // Save the new image file
+                String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+                Path filePath = imagePath.resolve(fileName);
+                Files.write(filePath, image.getBytes());
+
+                // Update the image URL
+                movie.setImageUrl(filePath.toString());
+            } catch (IOException e) {
+                logger.error("Error saving updated image: ", e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Error saving updated image: " + e.getMessage());
+            }
+        }
+
+        // Save updated movie back to the database
+        movieRepository.save(movie);
+        logger.info("Movie updated successfully: {}", movie);
+        return ResponseEntity.status(HttpStatus.OK).body("Movie updated successfully!");
+    }
+
+    // Endpoint to delete a movie
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteMovie(@PathVariable Long id) {
+        try {
+            Movie movie = movieRepository.findById(id).orElse(null);
+            if (movie == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found!");
+            }
+
+            // Delete the movie from the database
+            movieRepository.delete(movie);
+            logger.info("Movie deleted successfully: {}", movie);
+            return ResponseEntity.status(HttpStatus.OK).body("Movie deleted successfully!");
+        } catch (Exception e) {
+            logger.error("Error deleting movie: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting movie: " + e.getMessage());
+        }
+    }
+}

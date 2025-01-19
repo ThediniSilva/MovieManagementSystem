@@ -1,0 +1,40 @@
+<!-- Header Section -->
+<nav class="bg-blue-500 text-white p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="/" class="text-xl font-bold">CinemaGo</a>
+    <ul class="flex space-x-4">
+      <li>
+        <a href="/" routerLinkActive="font-bold" class="hover:underline">Home</a>
+      </li>
+      <li>
+        <a href ="/movie" routerLinkActive="font-bold" class="hover:underline">Movies</a>
+      </li>
+      <li>
+        <a href="/addmovies" routerLinkActive="font-bold" class="hover:underline">Add</a>
+      </li>
+      <li>
+        <a routerLink="/contact" routerLinkActive="font-bold" class="hover:underline">Contact</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer Section -->
+<footer class="bg-blue-500 text-white py-6">
+  <div class="container mx-auto text-center">
+    <p class="text-lg">© 2025 Movie Booking System. All Rights Reserved.</p>
+    <div class="mt-4">
+      <a href="https://www.facebook.com" class="mx-2 text-white hover:text-blue-400" target="_blank">Facebook</a>
+      <a href="https://www.twitter.com" class="mx-2 text-white hover:text-blue-400" target="_blank">Twitter</a>
+      <a href="https://www.instagram.com" class="mx-2 text-white hover:text-blue-400" target="_blank">Instagram</a>
+    </div>
+    <div class="mt-4">
+      <p class="text-sm">Contact us: <a href="mailto:support@moviebookingsystem.com" class="text-white hover:text-blue-400">support:moviebookingsystem.com</a></p>
+    </div>
+  </div>
+</footer>

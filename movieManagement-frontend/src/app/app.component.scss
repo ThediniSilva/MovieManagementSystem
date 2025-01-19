@@ -1,0 +1,19 @@
+/* Ensure the page takes up the full height of the viewport */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Make the main content area expand to fill the available space */
+  main {
+    flex: 1;
+  }
+  
+  /* Optional: Remove body-level padding/margins */
+  body {
+    padding: 0;
+  }
+  

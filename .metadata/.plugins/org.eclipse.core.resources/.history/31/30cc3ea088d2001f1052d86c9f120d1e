@@ -1,0 +1,44 @@
+package com.example.MovieTicketBookingSystem.controller;
+
+
+import com.example.MovieTicketBookingSystem.entity.Movie;
+import com.example.MovieTicketBookingSystem.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/movies")
+public class MovieController {
+
+    @Autowired
+    private MovieRepository movieRepository;
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addMovie(
+            @RequestParam("movie") String movieJson,
+            @RequestParam("image") MultipartFile image) {
+        try {
+            // Save the image to a directory
+            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            Path imagePath = Paths.get("uploads/" + fileName);
+            Files.createDirectories(imagePath.getParent());
+            Files.write(imagePath, image.getBytes());
+
+            // Parse the movie JSON string into a Movie object
+            ObjectMapper objectMapper = new ObjectMapper();
+            Movie movie = objectMapper.readValue(movieJson, Movie.class);
+
+            // Set the image URL/path
+            movie.setImageUrl(imagePath.toString());
+
+            // Save the movie to the database
+            movieRepository.save(movie);
+
+            return ResponseEntity.ok("Movie added successfully!");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error saving movie: " + e.getMessage());
+        }
+    }
+}
