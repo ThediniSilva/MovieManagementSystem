@@ -1,34 +1,42 @@
 <div class="min-h-screen bg-gray-100">
     <!-- Hero Section -->
-    <div class="bg-blue-900 text-white py-16 text-center">
-      <h1 class="text-5xl font-bold">Welcome to CinemaGo</h1>
-      <p class="text-lg mt-4">Book your favorite movies easily and quickly!</p>
-      <button class="mt-6 px-8 py-3 bg-white text-blue-500 font-bold rounded hover:bg-gray-200">
+    <div 
+    class="w-full text-white min-h-screen text-center relative bg-cover bg-center" 
+    style="background-image: url('https://png.pngtree.com/background/20230618/original/pngtree-blank-movie-ticket-with-popcorn-bucket-filmstrip-clapperboard-and-camera-in-picture-image_3709549.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-30"></div> <!-- Overlay -->
+    <div class="relative z-12 max-w-7xl mx-auto px-6 pt-64 py-32">
+      <h1 class="text-6xl font-bold">Welcome to CinemaGo</h1>
+      <p class="text-xl mt-6">Book your favorite movies easily and quickly!</p>
+      <button class="mt-8 px-10 py-4 bg-blue-200 text-blue-900 font-bold rounded-lg hover:bg-gray-300 transition-colors">
         Book Tickets Now
       </button>
     </div>
+  </div>
+
+  <div 
+  class="py-12 px-4 md:px-20 bg-cover bg-center"
+  style="background-image: url('https://plus.unsplash.com/premium_photo-1709842822358-006f08261139?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW92aWUlMjB0aWNrZXRzfGVufDB8fDB8fHww');">
   
-    <!-- Features Section -->
-    <div class="py-12 px-4 md:px-20">
-      <h2 class="text-3xl font-bold text-center mb-8">Our Features</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Feature 1 -->
-        <div class="bg-white shadow-md rounded p-6 text-center">
-          <h3 class="text-xl font-semibold mb-4">Wide Range of Movies</h3>
-          <p>Choose from a vast collection of movies across genres and languages.</p>
-        </div>
-        <!-- Feature 2 -->
-        <div class="bg-white shadow-md rounded p-6 text-center">
-          <h3 class="text-xl font-semibold mb-4">Easy Booking Process</h3>
-          <p>Book your tickets seamlessly with our user-friendly platform.</p>
-        </div>
-        <!-- Feature 3 -->
-        <div class="bg-white shadow-md rounded p-6 text-center">
-          <h3 class="text-xl font-semibold mb-4">Secure Payments</h3>
-          <p>Make hassle-free and secure payments for your bookings.</p>
-        </div>
+  <div class="py-12 px-4 md:px-20">
+    <h2 class="text-3xl font-bold text-center mb-8">Our Features</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="bg-white shadow-md rounded p-6 text-center transform transition duration-300 hover:scale-105 hover:animate-popup">
+        <h3 class="text-xl font-semibold mb-4">Wide Range of Movies</h3>
+        <p>Choose from a vast collection of movies across genres and languages.</p>
+      </div>
+      <!-- Feature 2 -->
+      <div class="bg-white shadow-md rounded p-6 text-center transform transition duration-300 hover:scale-105 hover:animate-popup">
+        <h3 class="text-xl font-semibold mb-4">Easy Booking Process</h3>
+        <p>Book your tickets seamlessly with our user-friendly platform.</p>
+      </div>
+      <!-- Feature 3 -->
+      <div class="bg-white shadow-md rounded p-6 text-center transform transition duration-300 hover:scale-105 hover:animate-popup">
+        <h3 class="text-xl font-semibold mb-4">Secure Payments</h3>
+        <p>Make hassle-free and secure payments for your bookings.</p>
       </div>
     </div>
+  </div>
   
     <!-- Popular Movies Section -->
     <div class="bg-gray-200 py-12 px-5 md:px-20">
@@ -64,4 +72,5 @@
         </button>
       </div>
   </div>
+</div>
   
