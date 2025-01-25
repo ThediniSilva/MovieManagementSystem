@@ -1,0 +1,31 @@
+package com.example.MovieTicketBookingSystem.controller;
+
+import java.sql.Date;
+import java.util.Map;
+
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Jaas;
+import org.springframework.stereotype.Component;
+
+@Component
+public class JwtUtil {
+
+    private final String SECRET_KEY = "67374ceb1fa22544522af75ca335e2b63e5a10ea42aab26fe6ad6718eae7152eddcf59a8daada5476d5e12e91d6136c424da9f78ce4b88541054007bc4c55360af773bc7589b15c0d9887c469df0059d7f3d756e0d4b4eb0ce784cfee26acc5165817a6aae9019fe017cc5bb15dc17d1a064575a689aa144d6fefaf5d2a94e07dd130578bc15631891c90f3ef743157d92cbea15aa3bd90ad3f95d2e69213a399fe6dfa943752364994b82aad35ed8a2304ed967f3dad7fa5920226a4e837904986b64f46b0fbbc4fb21dec4bd7e696debd6e759086c9b1162baabb1c1b060be09afc7d7a28a4f29e13c72b1bb702b7a968b63a7caecfe51bfdd42c5f825bf50";
+
+    public String generateToken(Map<String, Object> claims, String subject) {
+        return Jaas.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 8 * 60 * 60 * 1000)) // 8 hours
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
+    }
+
+    public Claims extractClaims(String token) {
+        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+    }
+
+    public String extractUsername(String token) {
+        return extractClaims(token).getSubject();
+    }
+}

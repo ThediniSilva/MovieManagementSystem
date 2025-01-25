@@ -1,0 +1,20 @@
+package com.example.MovieTicketBookingSystem.services;
+
+import com.example.MovieTicketBookingSystem.entity.User;
+import com.example.MovieTicketBookingSystem.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public User registerUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new IllegalArgumentException("Email already registered");
+        }
+        return userRepository.save(user);
+    }
+}

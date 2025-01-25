@@ -1,0 +1,45 @@
+package com.example.MovieTicketBookingSystem.services;
+
+import com.example.MovieTicketBookingSystem.entity.User;
+import com.example.MovieTicketBookingSystem.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public User registerUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new IllegalArgumentException("Email already registered");
+        }
+        return userRepository.save(user);
+    }
+    
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public void updateUser(Long id, User updatedUser) {
+        User existingUser = userRepository.findById(id).orElse(null);
+        if (existingUser == null) {
+            throw new IllegalArgumentException("User not found!");
+        }
+        existingUser.setName(updatedUser.getName());
+        existingUser.setContactNumber(updatedUser.getContactNumber());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setPassword(updatedUser.getPassword());
+        userRepository.save(existingUser);
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found!");
+        }
+        userRepository.delete(user);
+    }
+
+}

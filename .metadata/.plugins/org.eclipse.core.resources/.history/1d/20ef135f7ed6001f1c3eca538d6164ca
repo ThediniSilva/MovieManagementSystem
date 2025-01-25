@@ -1,0 +1,44 @@
+package com.example.MovieTicketBookingSystem.services;
+
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.MovieTicketBookingSystem.entity.User;
+import com.example.MovieTicketBookingSystem.repository.UserRepository;
+
+import java.util.Optional;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public String registerUser(User user) {
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
+            return "Email already exists";
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setStatus("false");
+        user.setRole("user");
+        userRepository.save(user);
+
+        return "Registration successful";
+    }
+
+    public Optional<User> authenticateUser(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
+            return user;
+        }
+        return Optional.empty();
+    }
+}
