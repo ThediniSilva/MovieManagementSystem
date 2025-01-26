@@ -1,0 +1,17 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; // Ensure it fills the dialog box
+  }
+  
+  h2, p {
+    text-align: center; // Center-align the text
+  }
+  
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

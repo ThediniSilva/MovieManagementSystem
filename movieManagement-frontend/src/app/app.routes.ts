@@ -5,6 +5,7 @@ import { MovieComponent } from './movie/movie.component';
 import { UpdateMovieComponent } from './update-movie/update-movie.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AdminDashboardComponent } from './Admin/admin-dashboard/admin-dashboard.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -14,5 +15,6 @@ export const routes: Routes = [
     { path: 'update/:id', component: UpdateMovieComponent }, // Update movie form
     {path:'adduser',component:AddUserComponent},
     {path:'admin',component:AdminDashboardComponent},
+    {path:'manageuser',component:ManageUsersComponent},
 
 ];
