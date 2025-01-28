@@ -1,6 +1,7 @@
 package com.example.MovieTicketBookingSystem.controller;
 
 import com.example.MovieTicketBookingSystem.entity.User;
+import com.example.MovieTicketBookingSystem.security.JwtUtil;
 import com.example.MovieTicketBookingSystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,40 +14,70 @@ import java.util.List;
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
+	 @Autowired
+	    private UserService userService;
 
-    @Autowired
-    private UserService userService;
+	    @Autowired
+	    private JwtUtil jwtUtil;
 
-    // Register a new user
-    @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody User user) {
-        try {
-            userService.registerUser(user);
-            // Return a response as JSON
-            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage("User registered successfully!"));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(e.getMessage()));
-        }
-    }
+	    // Register a new user
+	    @PostMapping("/register")
+	    public ResponseEntity<Object> registerUser(@RequestBody User user) {
+	        try {
+	            userService.registerUser(user);
+	            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage("User registered successfully!"));
+	        } catch (IllegalArgumentException e) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(e.getMessage()));
+	        }
+	    }
 
-    // ResponseMessage class for structured response
-    public class ResponseMessage {
-        private String message;
+	    // Login user
+	    @PostMapping("/login")
+	    public ResponseEntity<Object> loginUser(@RequestBody User user) {
+	        User existingUser = userService.findByEmail(user.getEmail());
 
-        public ResponseMessage(String message) {
-            this.message = message;
-        }
+	        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
+	            // Generate JWT token for successful login
+	            String token = jwtUtil.generateToken(existingUser.getEmail());
+	            return ResponseEntity.ok(new JwtResponse(token));
+	        } else {
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("Invalid email or password"));
+	        }
+	    }
 
-        public String getMessage() {
-            return message;
-        }
+	    // ResponseMessage class for structured response
+	    public class ResponseMessage {
+	        private String message;
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
-    }
+	        public ResponseMessage(String message) {
+	            this.message = message;
+	        }
 
+	        public String getMessage() {
+	            return message;
+	        }
 
+	        public void setMessage(String message) {
+	            this.message = message;
+	        }
+	    }
+
+	    // JwtResponse class to send token in response
+	    public class JwtResponse {
+	        private String token;
+
+	        public JwtResponse(String token) {
+	            this.token = token;
+	        }
+
+	        public String getToken() {
+	            return token;
+	        }
+
+	        public void setToken(String token) {
+	            this.token = token;
+	        }
+	    }
     // Get user details by ID
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
@@ -90,4 +121,24 @@ public class UserController {
         }
         return ResponseEntity.ok(users);
     }
+    
+ // Get the current user's profile
+    @GetMapping("/profile")
+    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String token) {
+        try {
+            // Extract email from the JWT token
+            String email = jwtUtil.extractUsername(token.replace("Bearer ", ""));
+
+            // Fetch user details using the email
+            User user = userService.findByEmail(email);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
 }

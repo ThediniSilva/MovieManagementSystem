@@ -1,0 +1,16 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+  <div class="bg-white shadow-lg p-6 rounded-lg max-w-md mx-auto">
+    <div class="container mx-auto mt-10">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4">User Profile</h1>
+        <p><strong>Full Name:</strong> {{ user?.name }}</p>
+        <p><strong>Email:</strong> {{ user?.email }}</p>
+        <p><strong>Contact Number:</strong> {{ user?.contactNumber }}</p>
+      </div>
+    </div>
+    
+    <button (click)="logout()" class="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg">
+      Logout
+    </button>
+  </div>
+</div>
