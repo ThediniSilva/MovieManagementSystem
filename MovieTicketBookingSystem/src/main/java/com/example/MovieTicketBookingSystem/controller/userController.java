@@ -1,5 +1,6 @@
 package com.example.MovieTicketBookingSystem.controller;
 
+import com.example.MovieTicketBookingSystem.entity.LoginResponse;
 import com.example.MovieTicketBookingSystem.entity.User;
 import com.example.MovieTicketBookingSystem.security.JwtUtil;
 import com.example.MovieTicketBookingSystem.services.UserService;
@@ -30,8 +31,6 @@ public class UserController {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(e.getMessage()));
 	        }
 	    }
-
-	    // Login user
 	    @PostMapping("/login")
 	    public ResponseEntity<Object> loginUser(@RequestBody User user) {
 	        User existingUser = userService.findByEmail(user.getEmail());
@@ -39,9 +38,15 @@ public class UserController {
 	        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
 	            // Generate JWT token for successful login
 	            String token = jwtUtil.generateToken(existingUser.getEmail());
-	            return ResponseEntity.ok(new JwtResponse(token));
+
+	            // Check if the email belongs to the admin
+	            boolean isAdmin = "admin@gmail.com".equals(user.getEmail());
+
+	            // Include the admin flag in the response
+	            return ResponseEntity.ok(new LoginResponse(token, isAdmin));
 	        } else {
-	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("Invalid email or password"));
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                    .body(new ResponseMessage("Invalid email or password"));
 	        }
 	    }
 
