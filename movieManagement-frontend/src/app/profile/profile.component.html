@@ -9,8 +9,21 @@
       </div>
     </div>
     
-    <button (click)="logout()" class="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg">
+    <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 mr-4">
       Logout
     </button>
+    <button
+    (click)="editUser(user)"
+    class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 mr-4"
+  >
+    Edit
+  </button>
+  <button
+    (click)="deleteUser(user.id)"
+    class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-100"
+  >
+    Delete
+  </button>
+  
   </div>
 </div>

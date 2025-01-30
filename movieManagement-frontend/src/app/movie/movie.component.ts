@@ -41,31 +41,31 @@ export class MovieComponent implements OnInit {
    * @param id Movie ID to delete.
    * @param index Index of the movie in the array.
    */
-  deleteMovie(id: number, index: number): void {
-    if (confirm('Are you sure you want to delete this movie?')) {
-      this.movieService.deleteMovie(id).subscribe({
-        next: () => {
-          // Success: Remove the movie from the array and show success alert
-          this.movies.splice(index, 1);
-          alert('Movie deleted successfully.');
-        },
-        error: (error) => {
-          // Error: Log the error and inform the user
-          console.error('Error deleting movie:', error);
-          alert('Failed to delete the movie.');
-        },
-      });
-    }
-  }
+  // deleteMovie(id: number, index: number): void {
+  //   if (confirm('Are you sure you want to delete this movie?')) {
+  //     this.movieService.deleteMovie(id).subscribe({
+  //       next: () => {
+  //         // Success: Remove the movie from the array and show success alert
+  //         this.movies.splice(index, 1);
+  //         alert('Movie deleted successfully.');
+  //       },
+  //       error: (error) => {
+  //         // Error: Log the error and inform the user
+  //         console.error('Error deleting movie:', error);
+  //         alert('Failed to delete the movie.');
+  //       },
+  //     });
+  //   }
+  // }
   
   
 
-  /**
-   * Handle editing a movie.
-   * @param movie Movie object to edit.
-   */
-  editMovie(movie: any): void {
-    // Navigate to update form or open modal for editing
-    alert(`Edit functionality for movie: ${movie.title} is not implemented yet.`);
-  }
+  // /**
+  //  * Handle editing a movie.
+  //  * @param movie Movie object to edit.
+  //  */
+  // editMovie(movie: any): void {
+  //   // Navigate to update form or open modal for editing
+  //   alert(`Edit functionality for movie: ${movie.title} is not implemented yet.`);
+  // }
 }

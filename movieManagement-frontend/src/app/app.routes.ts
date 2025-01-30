@@ -8,6 +8,7 @@ import { AdminDashboardComponent } from './Admin/admin-dashboard/admin-dashboard
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { MovieManagementComponent } from './Admin/movie-management/movie-management.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -20,5 +21,6 @@ export const routes: Routes = [
     {path:'manageuser',component:ManageUsersComponent},
     {path:'login',component:LoginComponent},
     {path:'profile',component:ProfileComponent},
+    {path:'manageMovie',component:MovieManagementComponent},
 
 ];

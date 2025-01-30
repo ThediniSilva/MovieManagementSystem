@@ -61,7 +61,7 @@ export class UpdateMovieComponent implements OnInit {
       next: (response: string) => {
         console.log('Update successful:', response);
         alert('Movie updated successfully!');
-        this.router.navigate(['/movies']); // Navigate to the movie page
+        this.router.navigate(['/manageMovie']); // Navigate to the movie page
       },
       error: (error) => {
         console.error('Error updating movie:', error);
@@ -71,7 +71,7 @@ export class UpdateMovieComponent implements OnInit {
           alert('Server error occurred. Please try again later.');
         } else {
           alert('Movie updated successfully!!');
-          this.router.navigate(['/movie']); // Navigate to the movie page
+          this.router.navigate(['/manageMovie']); // Navigate to the movie page
         }
       },
     });
