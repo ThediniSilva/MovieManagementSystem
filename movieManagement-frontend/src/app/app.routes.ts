@@ -9,6 +9,9 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MovieManagementComponent } from './Admin/movie-management/movie-management.component';
+import { SeatBookingComponent } from './seat-booking/seat-booking.component';
+import { AddTheaterComponent } from './Admin/add-theater/add-theater.component';
+import { TheaterListComponent } from './Admin/theater-list/theater-list.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -22,5 +25,8 @@ export const routes: Routes = [
     {path:'login',component:LoginComponent},
     {path:'profile',component:ProfileComponent},
     {path:'manageMovie',component:MovieManagementComponent},
+    {path:'seat',component:SeatBookingComponent},
+    {path:'addtheater',component:AddTheaterComponent},
+    {path:'theaterList',component:TheaterListComponent},
 
 ];

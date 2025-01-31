@@ -1,0 +1,20 @@
+<div class="grid grid-cols-8 gap-2 p-4">
+    <div
+      *ngFor="let seat of seats"
+      (click)="toggleSeatSelection(seat)"
+      [class.bg-green-500]="seat.isBooked"
+      [class.bg-blue-500]="!seat.isBooked && selectedSeats.includes(seat.id)"
+      [class.bg-gray-200]="!seat.isBooked && !selectedSeats.includes(seat.id)"
+      class="w-10 h-10 rounded flex items-center justify-center cursor-pointer"
+    >
+      {{ seat.seatNumber }}
+    </div>
+  </div>
+  
+  <div class="p-4">
+    <p>Total Price: ${{ totalPrice }}</p>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="bookSeats()">
+      Book Seats
+    </button>
+  </div>
+  
