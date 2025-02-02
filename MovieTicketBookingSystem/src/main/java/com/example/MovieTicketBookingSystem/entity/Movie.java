@@ -1,10 +1,14 @@
 package com.example.MovieTicketBookingSystem.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +24,9 @@ public class Movie {
     private String genre;
     private int duration;
     private String director;
+    
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<Showtime> showtimes;
 
     @Column(name = "image_url") // Ensure column names match with the database
     private String imageUrl;
