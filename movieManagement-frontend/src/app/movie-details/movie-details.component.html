@@ -1,0 +1,29 @@
+<div class="flex flex-col items-center justify-center min-h-screen p-6 pb-20">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4">Showtimes</h2>
+  
+    <!-- Showtimes List -->
+    <div *ngIf="showtimes.length > 0; else noShowtimes" class="w-full max-w-lg">
+      <div *ngFor="let showtime of showtimes" class="p-4 border rounded shadow-lg mb-4 bg-white w-full text-center">
+        <p><strong>Date:</strong> {{ showtime.startDate }}</p>
+        <p><strong>Time:</strong> {{ showtime.startTime }}</p>
+        <p><strong>Price:</strong> ${{ showtime.ticketPrice }}</p>
+        <p><strong>Theater:</strong> {{ showtime.theater.name }} ({{ showtime.theater.location }})</p>
+  
+        <!-- ✅ Book Now Button -->
+        <button  class="mt-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition">
+          Book Now
+        </button>
+      </div>
+    </div>
+  
+    <!-- No Showtimes Available -->
+    <ng-template #noShowtimes>
+      <p class="text-red-500 text-lg font-semibold">{{ errorMessage }}</p>
+    </ng-template>
+  
+    <!-- ✅ Back to Movie List Button -->
+    <a href ="/movie" routerLinkActive="font-bold" class="hover:underline">  ← Back to Movie List</a>
+    
+    
+  </div>
+  

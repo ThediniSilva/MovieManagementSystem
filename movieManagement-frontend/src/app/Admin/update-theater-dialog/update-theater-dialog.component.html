@@ -1,0 +1,27 @@
+<div class="p-6">
+  <h2 class="text-xl font-bold text-gray-800 mb-4">Update Theater</h2>
+
+  <label class="block text-gray-700">Name:</label>
+  <input [(ngModel)]="theater.name" type="text" class="border rounded w-full p-2 mb-3">
+
+  <label class="block text-gray-700">Location:</label>
+  <input [(ngModel)]="theater.location" type="text" class="border rounded w-full p-2 mb-3">
+
+  <label class="block text-gray-700">Seat Count:</label>
+  <input [(ngModel)]="theater.seatCount" type="number" class="border rounded w-full p-2 mb-3">
+
+  <label class="block text-gray-700">Features:</label>
+  <textarea [(ngModel)]="theater.features" class="border rounded w-full p-2 mb-3"></textarea>
+
+  <label class="block text-gray-700">Image:</label>
+  <input type="file" (change)="onImageChange($event)" class="border rounded w-full p-2 mb-3">
+
+  <div class="flex justify-end mt-4">
+    <button (click)="updateTheater()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2">
+      Update
+    </button>
+    <button (click)="dialogRef.close()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
+      Cancel
+    </button>
+  </div>
+</div>

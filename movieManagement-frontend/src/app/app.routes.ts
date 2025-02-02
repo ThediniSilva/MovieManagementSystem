@@ -12,6 +12,8 @@ import { MovieManagementComponent } from './Admin/movie-management/movie-managem
 import { SeatBookingComponent } from './seat-booking/seat-booking.component';
 import { AddTheaterComponent } from './Admin/add-theater/add-theater.component';
 import { TheaterListComponent } from './Admin/theater-list/theater-list.component';
+import { TheaterDetailsComponent } from './theater-details/theater-details.component';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -28,5 +30,7 @@ export const routes: Routes = [
     {path:'seat',component:SeatBookingComponent},
     {path:'addtheater',component:AddTheaterComponent},
     {path:'theaterList',component:TheaterListComponent},
+    {path:'TheaterDetails',component:TheaterDetailsComponent},
+    {path:'movieDetails/:id',component:MovieDetailsComponent},
 
 ];

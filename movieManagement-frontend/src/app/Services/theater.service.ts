@@ -23,8 +23,9 @@ export class TheaterService {
   }
 
   updateTheater(id: number, theaterData: FormData): Observable<string> {
-    return this.http.put<string>(`${this.apiUrl}/update/${id}`, theaterData,);
+    return this.http.put(`${this.apiUrl}/update/${id}`, theaterData, { responseType: 'text' });
   }
+  
 
   deleteTheater(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/delete/${id}`);
