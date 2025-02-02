@@ -14,6 +14,8 @@ import { AddTheaterComponent } from './Admin/add-theater/add-theater.component';
 import { TheaterListComponent } from './Admin/theater-list/theater-list.component';
 import { TheaterDetailsComponent } from './theater-details/theater-details.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { AddShowtimeComponent } from './Admin/add-showtime/add-showtime.component';
+import { ShowtimeListComponent } from './Admin/showtime-list/showtime-list.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -32,5 +34,9 @@ export const routes: Routes = [
     {path:'theaterList',component:TheaterListComponent},
     {path:'TheaterDetails',component:TheaterDetailsComponent},
     {path:'movieDetails/:id',component:MovieDetailsComponent},
+    {path:'addtime',component:AddShowtimeComponent},
+    {path:'showtimelist',component:ShowtimeListComponent},
+
+
 
 ];
