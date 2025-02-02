@@ -74,6 +74,8 @@ public class ShowtimeController {
         showtime.setStartDate(updatedShowtime.getStartDate());
         showtime.setStartTime(updatedShowtime.getStartTime());
         showtime.setTicketPrice(updatedShowtime.getTicketPrice());
+        
+        
 
         showtimeRepository.save(showtime);
         return ResponseEntity.ok("Showtime updated successfully!");
