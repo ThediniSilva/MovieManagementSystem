@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ShowtimeService } from '../../Services/showtime.service';
 import { Showtime } from '../../models/showtime.model';
+import { UpdateShowtimeDialogComponent } from '../update-showtime-dialog/update-showtime-dialog.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-showtime-list',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './showtime-list.component.html',
   styleUrls: ['./showtime-list.component.scss']
@@ -14,7 +15,7 @@ export class ShowtimeListComponent implements OnInit {
   showtimes: Showtime[] = [];
   errorMessage: string = '';
 
-  constructor(private showtimeService: ShowtimeService) {}
+  constructor(private showtimeService: ShowtimeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.fetchShowtimes();
@@ -40,7 +41,7 @@ export class ShowtimeListComponent implements OnInit {
   deleteShowtime(id: number): void {
     if (confirm('Are you sure you want to delete this showtime?')) {
       this.showtimeService.deleteShowtime(id).subscribe({
-        next: (response: string) => {
+        next: () => {
           alert('Showtime deleted successfully!');
           this.fetchShowtimes();
         },
@@ -50,5 +51,30 @@ export class ShowtimeListComponent implements OnInit {
         }
       });
     }
+    
   }
+
+  openUpdateDialog(showtime: Showtime): void {
+    const dialogRef = this.dialog.open(UpdateShowtimeDialogComponent, {
+      width: '400px',
+      data: showtime
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.updateShowtime(result);
+      }
+    });
+  }
+
+  updateShowtime(updatedShowtime: Showtime): void {
+    this.showtimeService.updateShowtime(updatedShowtime).subscribe({
+      next: () => this.fetchShowtimes(),
+      error: (err) => {
+        console.error('Failed to update showtime:', err);
+        this.errorMessage = 'Failed to update showtime.';
+      }
+    });
+  }
+
 }

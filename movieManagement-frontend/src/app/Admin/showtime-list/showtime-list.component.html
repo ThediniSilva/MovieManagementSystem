@@ -1,9 +1,7 @@
 <div class="max-w-4xl mx-auto p-6">
-
-    <a href="addtime" 
-    class="text-lg py-2 px-6 bg-blue-500 text-white rounded-full hover:bg-blue-700 transition mr-4">
-   Add Theater
- </a>
+    <a href="addtime" class="text-lg py-2 px-6 bg-blue-500 text-white rounded-full hover:bg-blue-700 transition mr-4">
+      Add ShowTime
+    </a>
   
     <h2 class="text-2xl font-bold mb-6 p-4">Showtime List</h2>
   
@@ -21,14 +19,19 @@
         <strong>Time:</strong> {{ showtime.startTime }}
       </p>
       <p class="text-lg">
-        <strong>Ticket Price:</strong> ${{ showtime.ticketPrice }}
+        <strong>Ticket Price:</strong> Rs.{{ showtime.ticketPrice }}
+      </p>
+      <p class="text-lg">
+        <strong>Movie:</strong> {{ showtime.movie.title }} 
       </p>
       <p class="text-lg">
         <strong>Theater:</strong> {{ showtime.theater.name }} ({{ showtime.theater.location }})
       </p>
-      <button (click)="deleteShowtime(showtime.id!)" 
-              class="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition">
+      <button (click)="deleteShowtime(showtime.id)" class="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition">
         Delete Showtime
+      </button>
+      <button (click)="openUpdateDialog(showtime)" class="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        Edit
       </button>
     </div>
   </div>

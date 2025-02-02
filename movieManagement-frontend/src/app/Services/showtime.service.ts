@@ -32,8 +32,8 @@ export class ShowtimeService {
   deleteShowtime(id: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/delete/${id}`, { responseType: 'text' as 'json' });
   }
-  updateShowtime(id: number, showtime: addtime): Observable<string> {
-    return this.http.put<string>(`${this.apiUrl}/update/${id}`, showtime);
+  updateShowtime(showtime: Showtime): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update/${showtime.id}`, showtime, { responseType: 'text' });
   }
 
   

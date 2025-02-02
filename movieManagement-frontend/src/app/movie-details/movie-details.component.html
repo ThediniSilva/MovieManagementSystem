@@ -6,7 +6,7 @@
       <div *ngFor="let showtime of showtimes" class="p-4 border rounded shadow-lg mb-4 bg-white w-full text-center">
         <p><strong>Date:</strong> {{ showtime.startDate }}</p>
         <p><strong>Time:</strong> {{ showtime.startTime }}</p>
-        <p><strong>Price:</strong> ${{ showtime.ticketPrice }}</p>
+        <p><strong>Price:</strong> Rs.{{ showtime.ticketPrice }}</p>
         <p><strong>Theater:</strong> {{ showtime.theater.name }} ({{ showtime.theater.location }})</p>
   
         <!-- ✅ Book Now Button -->
