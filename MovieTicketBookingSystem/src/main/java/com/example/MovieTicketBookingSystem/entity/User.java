@@ -26,6 +26,11 @@ public class User {
         this.email = email;
         this.password = password;
     }
+    
+    // Constructor for reference by ID
+    public User(Long id) {
+        this.id = id;
+    }
 
     // Getters and Setters
     public Long getId() {

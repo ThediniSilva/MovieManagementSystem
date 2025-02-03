@@ -35,6 +35,11 @@ public class Showtime {
         this.movie = movie;
         this.theater = theater;
     }
+    
+    // Constructor for reference by ID
+    public Showtime(Long id) {
+        this.id = id;
+    }
 
     // Getters and Setters
     public Long getId() {
