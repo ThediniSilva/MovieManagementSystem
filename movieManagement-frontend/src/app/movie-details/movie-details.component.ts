@@ -1,13 +1,16 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Showtime } from '../models/showtime.model';
+import { Seat } from '../models/seat.model';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Import RouterModule
+import { RouterModule } from '@angular/router';
+import { SeatService } from '../Services/seat.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   selector: 'app-movie-details',
   templateUrl: './movie-details.component.html',
   styleUrls: ['./movie-details.component.scss']
@@ -15,9 +18,11 @@ import { RouterModule } from '@angular/router'; // Import RouterModule
 export class MovieDetailsComponent implements OnInit {
   movieId!: number;
   showtimes: Showtime[] = [];
+  availableSeats: Seat[] = [];
+  selectedShowtimeId: number | null = null;
   errorMessage: string = '';
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private seatService: SeatService) {}
 
   ngOnInit() {
     this.movieId = Number(this.route.snapshot.paramMap.get('id'));
@@ -28,20 +33,18 @@ export class MovieDetailsComponent implements OnInit {
     this.http.get<Showtime[]>(`http://localhost:8080/api/showtimes/movie/${this.movieId}`)
       .subscribe({
         next: (data) => {
-          if (data.length === 0) {
-            this.errorMessage = 'No showtimes available for this movie.';
-          } else {
-            this.showtimes = data;
-            this.errorMessage = '';
-          }
+          this.showtimes = data;
+          this.errorMessage = data.length === 0 ? 'No showtimes available for this movie.' : '';
         },
-        error: (error) => {
-          if (error.status === 404) {
-            this.errorMessage = 'No showtimes available for this movie.';
-          } else {
-            this.errorMessage = 'Something went wrong. Please try again later.';
-          }
-        }
+        error: () => this.errorMessage = 'Something went wrong. Please try again later.'
       });
+  }
+
+   checkSeats(showtimeId: number): void {
+    this.selectedShowtimeId = showtimeId;
+    this.seatService.getAvailableSeats(showtimeId).subscribe({
+      next: (data: Seat[]) => this.availableSeats = data,
+      error: () => this.errorMessage = 'Error fetching available seats.'
+    });
   }
 }

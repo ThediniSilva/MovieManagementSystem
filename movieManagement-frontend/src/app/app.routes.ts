@@ -16,6 +16,8 @@ import { TheaterDetailsComponent } from './theater-details/theater-details.compo
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { AddShowtimeComponent } from './Admin/add-showtime/add-showtime.component';
 import { ShowtimeListComponent } from './Admin/showtime-list/showtime-list.component';
+import { SeatSelectionComponent } from './seat-selection/seat-selection.component';
+import { AddSeatsComponent } from './Admin/add-seats/add-seats.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent},
@@ -36,6 +38,8 @@ export const routes: Routes = [
     {path:'movieDetails/:id',component:MovieDetailsComponent},
     {path:'addtime',component:AddShowtimeComponent},
     {path:'showtimelist',component:ShowtimeListComponent},
+    {path:'seatselection/:id',component:SeatSelectionComponent},
+    {path:'add-seats/:id',component:AddSeatsComponent},
 
 
 

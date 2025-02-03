@@ -1,0 +1,20 @@
+<div class="max-w-4xl mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-6 p-4">Add Seats for Showtime</h2>
+  
+    <form (ngSubmit)="initializeSeats()">
+      <div class="mb-4">
+        <label for="rowCount" class="block text-sm font-semibold">Number of Rows:</label>
+        <input type="number" id="rowCount" [(ngModel)]="rowCount" name="rowCount" required class="mt-2 p-2 border rounded w-full" />
+      </div>
+      
+      <div class="mb-4">
+        <label for="seatsPerRow" class="block text-sm font-semibold">Seats per Row:</label>
+        <input type="number" id="seatsPerRow" [(ngModel)]="seatsPerRow" name="seatsPerRow" required class="mt-2 p-2 border rounded w-full" />
+      </div>
+      
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+        Initialize Seats
+      </button>
+    </form>
+  </div>
+  

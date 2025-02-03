@@ -76,5 +76,8 @@ export class ShowtimeListComponent implements OnInit {
       }
     });
   }
-
+  addSeats(showtimeId: number): void {
+    // Redirect to the page where seats can be added, passing the showtimeId
+    window.location.href = `/add-seats/${showtimeId}`;
+  }
 }
