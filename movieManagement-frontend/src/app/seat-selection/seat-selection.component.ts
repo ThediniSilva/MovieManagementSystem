@@ -62,7 +62,12 @@ export class SeatSelectionComponent implements OnInit {
   bookSeats(): void {
     if (this.selectedSeats.length) {
       const selectedSeatIds = this.selectedSeats.map(seat => seat.id);
-      const userId = 24;  // Ensure this user ID is correctly passed
+      const userId = this.authService.getUserId(); // Fetch logged-in user's ID
+  
+      if (!userId) {
+        alert("User ID not found. Please log in again.");
+        return;
+      }
   
       this.seatService.bookSeats(userId, selectedSeatIds).subscribe({
         next: () => {
@@ -71,15 +76,17 @@ export class SeatSelectionComponent implements OnInit {
             seat.selected = false; 
           });
           this.selectedSeats = [];
-          alert('Seats booked successfully!');
+          alert("Seats booked successfully!");
         },
         error: (err) => {
-          console.error('Booking error:', err);
-          alert('Error booking seats. Please try again.');
+          console.error("Booking error:", err);
+          alert("Error booking seats. Please try again.");
         }
       });
     }
   }
+  
+  
   
   
   

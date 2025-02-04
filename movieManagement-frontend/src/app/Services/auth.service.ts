@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+
 
 
 export interface LoginResponse {
@@ -30,6 +32,20 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-
+   // Decode JWT token to get userId
+   getUserId(): number | null {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        console.log("Decoded Token:", decodedToken); // Debugging line to check token contents
+        return decodedToken.userId || null;
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        return null;
+      }
+    }
+    return null;
+  }
 
 }
