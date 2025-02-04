@@ -36,14 +36,12 @@ public class UserController {
 	        User existingUser = userService.findByEmail(user.getEmail());
 
 	        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
-	            // Generate JWT token for successful login
-	            String token = jwtUtil.generateToken(existingUser.getEmail());
+	            // ✅ Generate token with userId
+	            String token = jwtUtil.generateToken(existingUser.getEmail(), existingUser.getId());
 
-	            // Check if the email belongs to the admin
 	            boolean isAdmin = "admin@gmail.com".equals(user.getEmail());
 
-	            // Include the admin flag in the response
-	            return ResponseEntity.ok(new LoginResponse(token, isAdmin));
+	            return ResponseEntity.ok(new LoginResponse(token, isAdmin, existingUser.getId()));
 	        } else {
 	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 	                    .body(new ResponseMessage("Invalid email or password"));
