@@ -1,21 +1,31 @@
 <div class="p-4 border rounded bg-white mt-4">
-    <h3 class="text-xl font-bold mb-4">Available Seats</h3>
-  
-    <div *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</div>
-  
-    <div *ngIf="seats.length === 0 && !errorMessage" class="text-gray-500">
-      No seats available.
-    </div>
-  
-    <div class="grid grid-cols-5 gap-2">
-      <button 
-        *ngFor="let seat of seats"
-        [disabled]="seat.reserved"
-        class="p-2 border rounded text-center"
-        [class.bg-gray-300]="seat.reserved"
-        [class.bg-green-500]="!seat.reserved">
-        {{ seat.seatNumber }}
-      </button>
-    </div>
+  <h3 class="text-xl font-bold mb-4">Available Seats</h3>
+
+  <div *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</div>
+
+  <div *ngIf="seats.length === 0 && !errorMessage" class="text-gray-500">
+    No seats available.
   </div>
-  
+
+  <div class="grid grid-cols-5 gap-2">
+    <button 
+      *ngFor="let seat of seats"
+      (click)="selectSeat(seat)"
+      [disabled]="seat.reserved"
+      class="p-2 border rounded text-center"
+      [class.bg-gray-300]="seat.reserved"
+      [class.bg-green-500]="!seat.reserved && !seat.selected"
+      [class.bg-blue-500]="seat.selected">
+      {{ seat.seatNumber }}
+    </button>
+  </div>
+
+  <div class="mt-4">
+    <button 
+      (click)="bookSeats()"
+      [disabled]="!selectedSeats.length"
+      class="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">
+      Book Now
+    </button>
+  </div>
+</div>

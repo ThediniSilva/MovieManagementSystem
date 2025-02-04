@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
+
 export interface LoginResponse {
- 
-    token: string;
-    admin: boolean; // Change "isAdmin" to "admin" to match backend response
-  }
+  token: string;
+  admin: boolean; // Change "isAdmin" to "admin" to match backend response
+}
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +29,7 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
+
+
+
 }
