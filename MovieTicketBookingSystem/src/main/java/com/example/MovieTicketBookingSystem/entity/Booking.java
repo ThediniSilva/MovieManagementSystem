@@ -1,9 +1,11 @@
 package com.example.MovieTicketBookingSystem.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,28 +14,25 @@ public class Booking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "showtime_id", nullable = false)
-    private Showtime showtime;
+    @ManyToMany
+    @JoinTable(
+      name = "booking_seat", 
+      joinColumns = @JoinColumn(name = "booking_id"), 
+      inverseJoinColumns = @JoinColumn(name = "seat_id")
+    )
+    private List<Seat> seats;
 
-    @Column(nullable = false)
-    private String seatNumbers;
-
-    @Column(nullable = false)
     private double totalPrice;
 
-    // Default constructor
+    // Constructors, getters, and setters
     public Booking() {}
 
-    // Parameterized constructor
-    public Booking(User user, Showtime showtime, String seatNumbers, double totalPrice) {
+    public Booking(User user, List<Seat> seats, double totalPrice) {
         this.user = user;
-        this.showtime = showtime;
-        this.seatNumbers = seatNumbers;
+        this.seats = seats;
         this.totalPrice = totalPrice;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -50,20 +49,12 @@ public class Booking {
         this.user = user;
     }
 
-    public Showtime getShowtime() {
-        return showtime;
+    public List<Seat> getSeats() {
+        return seats;
     }
 
-    public void setShowtime(Showtime showtime) {
-        this.showtime = showtime;
-    }
-
-    public String getSeatNumbers() {
-        return seatNumbers;
-    }
-
-    public void setSeatNumbers(String seatNumbers) {
-        this.seatNumbers = seatNumbers;
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
     }
 
     public double getTotalPrice() {

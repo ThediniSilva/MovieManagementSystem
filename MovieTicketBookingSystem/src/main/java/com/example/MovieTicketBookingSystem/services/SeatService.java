@@ -1,11 +1,16 @@
 package com.example.MovieTicketBookingSystem.services;
 
-
+import com.example.MovieTicketBookingSystem.entity.Booking;
 import com.example.MovieTicketBookingSystem.entity.Seat;
 import com.example.MovieTicketBookingSystem.entity.Showtime;
+import com.example.MovieTicketBookingSystem.entity.User;
+import com.example.MovieTicketBookingSystem.repository.BookingRepository;
 import com.example.MovieTicketBookingSystem.repository.SeatRepository;
+import com.example.MovieTicketBookingSystem.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +43,60 @@ public class SeatService {
     }
 
     // Reserve seats
-    public void reserveSeats(List<String> seatNumbers, Long showtimeId) {
+    @Transactional
+    public boolean reserveSeats(List<String> seatNumbers, Long showtimeId) {
         List<Seat> seats = seatRepository.findByShowtimeId(showtimeId);
-        for (Seat seat : seats) {
+        boolean allAvailable = seats.stream()
+                .filter(seat -> seatNumbers.contains(seat.getSeatNumber()))
+                .allMatch(seat -> !seat.isReserved());
+
+        if (!allAvailable) {
+            return false; // Some seats are already reserved
+        }
+
+        seats.forEach(seat -> {
             if (seatNumbers.contains(seat.getSeatNumber())) {
                 seat.setReserved(true);
             }
-        }
+        });
+
         seatRepository.saveAll(seats);
+        return true;
     }
+    
+    @Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private final double ticketPrice = 5.0;
+
+    // Method to book selected seats
+    public Booking bookSeats(Long userId, List<Long> seatIds) {
+        // Fetch user
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Fetch selected seats
+        List<Seat> seats = seatRepository.findAllById(seatIds);
+
+        // Check if all the selected seats are available
+        if (seats.stream().anyMatch(seat -> seat.isReserved())) {
+            throw new RuntimeException("One or more seats are already booked.");
+        }
+
+        // Mark seats as reserved
+        seats.forEach(seat -> seat.setReserved(true));
+        seatRepository.saveAll(seats);
+
+        // Calculate total price
+        double totalPrice = seats.size() * ticketPrice;
+
+        // Create and save booking
+        Booking booking = new Booking(user, seats, totalPrice);
+        bookingRepository.save(booking);
+
+        return booking;
+    }
+    
 }

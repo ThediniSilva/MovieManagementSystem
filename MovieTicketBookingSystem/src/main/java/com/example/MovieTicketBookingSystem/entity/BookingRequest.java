@@ -1,26 +1,13 @@
 package com.example.MovieTicketBookingSystem.entity;
 
-
-
 import java.util.List;
 
 public class BookingRequest {
 
     private Long userId;
-    private Long showtimeId;
-    private List<String> seatNumbers;
+    private List<Long> seatIds;
 
-    // Default constructor
-    public BookingRequest() {}
-
-    // Full constructor
-    public BookingRequest(Long userId, Long showtimeId, List<String> seatNumbers) {
-        this.userId = userId;
-        this.showtimeId = showtimeId;
-        this.seatNumbers = seatNumbers;
-    }
-
-    // Getters and Setters
+    // Getters and setters
     public Long getUserId() {
         return userId;
     }
@@ -29,19 +16,11 @@ public class BookingRequest {
         this.userId = userId;
     }
 
-    public Long getShowtimeId() {
-        return showtimeId;
+    public List<Long> getSeatIds() {
+        return seatIds;
     }
 
-    public void setShowtimeId(Long showtimeId) {
-        this.showtimeId = showtimeId;
-    }
-
-    public List<String> getSeatNumbers() {
-        return seatNumbers;
-    }
-
-    public void setSeatNumbers(List<String> seatNumbers) {
-        this.seatNumbers = seatNumbers;
+    public void setSeatIds(List<Long> seatIds) {
+        this.seatIds = seatIds;
     }
 }

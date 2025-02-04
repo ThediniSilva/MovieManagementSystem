@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
     List<Seat> findByShowtimeId(Long showtimeId);
+    
+    // This should work correctly with a list of ids
+    List<Seat> findAllByIdIn(List<Long> ids);
 }
